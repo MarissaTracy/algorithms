@@ -1,0 +1,90 @@
+1.	Given an array {a1, a2, · · · , an}, a reverse is a pair (ai , aj ) such that i < j but ai > aj. Design a divide-and-conquer algorithm with a runtime of O(n log n) for computing the number of reverses in the array. Your solution to this question needs to include both a written explanation and a Python implementation of your algorithm, including:
+a.	Explain how your algorithm works, including pseudocode.
+
+The algorithm will use merge sort to achieve the O(n log n) runtime.  The algorithm first divides the array into 2 subarrays so that we can begin merge sort.  The algorithm divides it in half, so it has to calculate what the middle is.  We have 2 subarrays, subarray1 and subarray2.  Each time it sorts, we need to count how many times it “swaps” a number to sort it.  Since the code will be sorted when it is in ascending order, if ai > aj, they will be swapped.  If a swap occurs, the program will increment a variable by 1 that keeps track of the swap.
+
+reversePairs(A)
+    middle = length(A)/2
+    left = reversePairs(before middle)
+    right = reversePairs(after midde)
+mergeSort(l, r)
+    count = 0
+    i = 0
+    j = 0
+    while(i < len(left) && j < len(right))
+        if left[i] < right[j]
+        count ++
+        i++
+    else 
+        j++
+    return count
+
+b.	Implement your algorithm in Python. 
+
+See finalproblem1.py
+To run code: 
+Make a txt file with 100 numbers in it.  Put a single space between each number. 
+Command line: python finalproblem1.py arrayfile.txt
+
+c.	Randomly generate an array of 100 numbers and use it as input to run your code. Report on both the input to your code and on how the output demonstrates the correctness of your algorithm
+
+I generated 100 random numbers using the following website: https://www.random.org/integers/?num=100&min=1&max=100&col=100&base=10&format=html&rnd=new.  This is the numbers they gave me: 
+      37	32	21	28	57	94	21	23	31	12	23	50	5	32	56	59	77	26	64	81	84	28	77	21	95	82	81	27	70	60	12	15	9	82	19	70	16	37	68	8	80	99	8	2	6	75	34	21	86	8	72	79	18	84	58	69	48	49	49	96	23	24	40	74	43	34	41	77	62	96	78	17	91	56	87	12	43	6	51	96	82	14	71	65	92	87	19	83	88	16	71	71	57	1	93	79	10	47	75	56.  I put those numbers into a test file, read in the file with my function and got this at the output:
+
+The function first prints out the array, to make sure it is reading the file correctly.  Then it prints out the number of reverses.  For this array, the number of reverses is 2200.  This shows the correctness of the algorithm because it calculated the correct amount of reverses. 
+.
+2.	Suppose that you are assigned a task to do a survey about n important issues (such as education policy and health insurance mandate), by asking a group of m persons questions about these issues. Suppose that a person may not have an opinion about all the issues, and you can ask a person about an issue only if s/he has an opinion about it. We use a bipartite graph G = {P ∪ I, E} to capture whether a person p ∈ P has an opinion about an issue i ∈ I or not: (p, i) ∈ E means that p has an opinion about i. For each issue i, in order to have a reliable survey you need to ask at least li persons about it, but you may have certain budget constraint so that you can only ask at most ui persons about it. For each person p, you may ask her/him between bp and tp issues.
+
+ Given G and parameters (li , ui), i ∈ I and (bp, tp), p ∈ P, design an algorithm to determine if these parameters are feasible, by formulating it as a problem of finding a routing with lower bounds as in Problem 1 of homework set #9. You shall solve the problem according to the following steps.
+a.	Show how to formulate the parameter feasibility problem as a problem of finding a routing with lower bounds. The resulting problem should be specified by certain graph G’= {V’, E’} with capacity c(e) and lower bound l(e) for each edge e ∈ E’ and demand r(v) at each vertex v ∈ V’.
+
+To find G’ you need to reroute G.  For each edge (V,E), replace it with 3 different edges, (V, V’), (V’,W’), and (W’,W).  The demand for v’ is l(e) and the demand for W’ is –l(e).  This allows any path in G to be a new route that will satisfy the lower bounds.
+
+b.	Further formulate the problem as a maximum flow problem as in Problem 1 of homework set #9. The resulting problem should be specified by certain graph Gˆ = {Vˆ, Eˆ} with source s, sink t and capacity c(e) for each edge e ∈ Eˆ.
+
+Add a directed edge from source s to all the nodes that has an opinion about i.  Then, add a directed edge from every node that does not have an opinion about i to the sink t.  Then using the min cut max flow algorithm, you are able to find a graph G’ with edges (V’,E’).
+
+c.	Implement (a)-(b) in Python. Your code should take the graph G and parameters (li , ui), i ∈ I and (bp, tp), p ∈ P as the input, and produce the graph Gˆ with source s, sink t and capacity c(e), e ∈ Eˆ as the output
+d.	Further implement the Ford-Fulkerson Algorithm in Python to find the maximum flow from s to t over the graph Gˆ.
+e.	Generate a test case of parameters according to the following specifications, and run your code to see if the parameters generated are feasible.
+- The number of issues n = 10 and the number of persons m = 1000;
+- For any person p and for any issue i, s/he has a probability of 50% to have an opinion about the issue, i.e., there is a 50% probability that there is a link from p to i in the graph G; 
+-For any person p, denote by hp the number of issues that s/he has an opinion about. Let bp = hp/2 and bp = hp; 
+-For each issue i, li is drawn uniformly from the interval [300, 400] and ui uniformly from [500, 700].
+
+3.	Suppose you have been sent back in time and have arrived at the scene of an ancient Roman battle. It is your job to assign n spears to n Roman soldiers so that each soldier has a spear. It is best if your assignments minimize the difference in heights between the height of the man and the height of his spear. That is, if the ith man has height mi, and his spear has height si, then you want to minimize:  i |mi − si |.
+a.	Design algorithm to find the optimal, or near optimal, solution without evaluating all possible combinations. Include an explanation and pseudocode showing how your algorithm works.
+
+The algorithm will work by sorting two arrays, one array of the heights of the soldiers mi, and the height of the spears si.  Each array will be sorted in ascending order, and then each element of the array of soldiers will be matched with the corresponding element in the array of spears.  That way the shortest soldier will be matched with the shortest spear, the second shortest solider matched with the second shortest spear, etc.  This will minimize difference in height.  This will minimize that because the shortest person must have the shortest spear to minimize height.  If the second tallest person had the shortest spear, the shortest person would have to have at minimum, the second shortest spear, which would not minimize the difference in height.
+
+sort mi smallest to largest and store in array M[]  #sorts soldiers by height
+sort si smallest to largest and store in array S[] #sorts spears by height
+    for each i in M[] #iterates through soldier array
+        M[i] = S[i] #assigns spear to solider
+    
+b.	Compare the runtime complexity of your algorithm with the complexity of a brute force solution.
+
+The complexity of the algorithm above is O(2nlog(n)) time.  To sort the arrays, it takes O(2log(n)) time because you are sorting 2 arrays of the same length.  Then, you have to iterate through the soldiers’ array to assign a spear to each soldier, which takes n time.  Therefore, the complexity is O(2nlog(n)).  The brute force method requires for every possible matching to be check before finding a solution.  If you have n soldiers that have n possible spears, the brute force method must check every matching, so there is n2 possibilities for each soldier, which is a complexity of O(n2).  The complexity of my algorithm is O(2nlog(n)) compared to the brute force complexity of O(n2).
+
+4.	Consider the following spider-web graph that shows a spider siting at the bottom of its web, and a fly sitting at the top. On moodle, there is a file called graphExample.py that implements the graph using a library called NetworkX.
+a.	Write an algorithm to determine how many different ways can the spider reach the fly by moving along the web’s lines in the directions indicated by the arrows?
+
+Starting with the fly, you want to calculate how many edges are going into that node. 
+
+b.	Implement your algorithm in Python using the NetworkX graph provided as your data structure. You may need to install NetworkX if it isn’t part of your Python installation. Do not use any of the NetworkX features that would make this problem trivial as part of your solution. However, you can use anything in NetworkX to verify your solution. Your algorithm should return an answer to the question in part (a).
+
+
+5.	There are n ≥ 3 people positioned on a field (Euclidean plane) so that each has a unique nearest neighbor. Each person has a water balloon. At a signal, everybody hurls his or her balloon at the nearest neighbor. Assume that n is odd and that nobody can miss his or her target.
+a.	Write an algorithm to answer the question: Is it true or false that there always remains at least one person not hit by a balloon?
+
+It is true that there is always a person not hit by a balloon.  Since n is odd, someone will not be hit by a balloon.  For example, if there are 3 people playing, 2 people will be closest to each other and hit each other, leaving the 3rd person who was not hit.  That can be applied to a larger number of people.  With an even amount of people, every person will have a unique neighbor that is closest to them.  For each person who has a nearest neighbor, they are the nearest neighbor to their nearest neighbor.  With an even amount of people, every person will be a nearest neighbor to someone else, therefore they will all be hit.  If we add one more person, making n odd, they are not guaranteed to get hit.  
+
+WRITE ALGO
+
+b.	Implement your algorithm in Python such that it takes a data structure of people and distances and produces a data structure of who was hit by a balloon.
+c.	Prove that your algorithm is correct. Your proof needs to include specific features of your algorithm.
+d.	Analyze the runtime behavior of your algorithm.
+
+
+
+
