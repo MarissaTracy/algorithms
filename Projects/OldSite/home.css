@@ -1,0 +1,24 @@
+<style>
+#button {
+    width: 6em;
+    border: 2px solid pink;
+    background: pink;
+    border-radius: 5px;
+    color: pink;
+}
+a {
+    display: block;
+    width: 15%;
+    line-height: 2em;
+    text-align: center;
+    text-decoration: none;
+    border-style: solid;
+    border-radius: 5px;
+    color: black;
+    border: 2px solid lightpink;
+}
+a:hover {
+    color: black;
+    background: pink;
+}
+</style>

@@ -1,0 +1,25 @@
+iOS Workshop
+
+- Ecosystem
+  - Need a mac
+  - Need to create development account with apple; cost about $100/year to put app on store; developer.apple.com
+  - iTunes Connect
+  - TestFlight where you push application out to user to have it tested
+
+-Xcode
+  - main.storyboard gets complied down into code
+  - Auto layout is important!
+  - ! means it doesn't have a value yet but it will when I'm done
+  - ? means value could be null
+
+-Swift
+  - Not dynamically typed, cant reset variables
+
+-SDK
+
+-Industry
+
+
+- Harvard iTunes U Course (Developing iOS 11 apps with swift)
+
+will.helling@inspiringapps.com
